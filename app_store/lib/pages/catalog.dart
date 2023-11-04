@@ -46,30 +46,40 @@ class Catalog extends StatelessWidget {
   }
 
   Widget _buildCategoryPage(String category) {
-    return Container(
-      padding: EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Category: $category',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+    return SingleChildScrollView(
+      child: Container(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Category: $category',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          // Product List
-          // Replace the following list with your product list
-          // You can use ListView.builder for a dynamic list of products
-          ListView(
-            shrinkWrap: true,
-            children: [
-              ProductCard(title: 'Product 1', price: 19.99),
-              ProductCard(title: 'Product 2', price: 24.99),
-              // Add more products as needed
-            ],
-          ),
-        ],
+            // Product List
+            // Replace the following list with your product list
+            // You can use ListView.builder for a dynamic list of products
+            ListView(
+              shrinkWrap: true,
+              children: [
+                ProductCard(
+                  title: 'Product 1',
+                  price: 19.99,
+                  imageUrl: 'assets/noimage.png',
+                ),
+                ProductCard(
+                  title: 'Product 2',
+                  price: 24.99,
+                  imageUrl: 'assets/noimage.png',
+                ),
+                // Add more products as needed
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -78,47 +88,54 @@ class Catalog extends StatelessWidget {
 class ProductCard extends StatelessWidget {
   final String title;
   final double price;
+  final String imageUrl;
 
-  ProductCard({required this.title, required this.price});
+  ProductCard(
+      {required this.title, required this.price, required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          Image(
-            image: AssetImage('assets/noimage.png'),
-            height: 200, // Adjust the height as needed
-            width: double.infinity,
-            fit: BoxFit.cover,
+          // Left side: Product image
+          Container(
+            width: 100, // Adjust the width as needed
+            child: Image.asset(
+              imageUrl,
+              height: 100, // Adjust the height as needed
+              fit: BoxFit.cover,
+            ),
           ),
-          Padding(
-            padding: EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+          // Right side: Product information
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                Text(
-                  'Price: \$${price.toStringAsFixed(2)}',
-                  style: TextStyle(
-                    fontSize: 16,
+                  Text(
+                    'Price: \$${price.toStringAsFixed(2)}',
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    // Add 'details' button functionality here
-                  },
-                  child: Text('Details'),
-                ),
-              ],
+                  ElevatedButton(
+                    onPressed: () {
+                      // Add 'details' button functionality here
+                    },
+                    child: Text('Details'),
+                  ),
+                ],
+              ),
             ),
           ),
         ],

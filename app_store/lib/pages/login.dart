@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:app_store/pages/catalog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:app_store/pages/signup.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key});
@@ -45,14 +47,24 @@ class _LoginState extends State<Login> {
           ),
           SizedBox(height: 20),
           ElevatedButton(
-            onPressed: () {
-              // Perform login logic here
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => Catalog(),
-                ),
-              );
+            onPressed: () async {
+              String email = emailController.text;
+              String password = passwordController.text;
+
+              User? user = await signInWithEmailAndPassword(email, password);
+
+              if (user != null) {
+                // Authentication successful, navigate to the catalog page.
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => Catalog(),
+                  ),
+                );
+              } else {
+                // Handle authentication failure (show an error message, etc.).
+                // You can display an error message on the login page.
+              }
             },
             child: Text(
               'Login',
@@ -61,8 +73,36 @@ class _LoginState extends State<Login> {
               ),
             ),
           ),
+          TextButton(
+              onPressed: () {
+                // Redirect to the SignUp page when the "Sign Up" text link is pressed
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => SignUp(),
+                  ),
+                );
+              },
+              child: Text(
+                "Don't have an account? Register!",
+                style: TextStyle(
+                  color: Color(0xFF212529), // Text link color
+                  decoration: TextDecoration.underline, // Button text color
+                ),
+              ))
         ]),
       ),
     );
+  }
+}
+
+Future<User?> signInWithEmailAndPassword(String email, String password) async {
+  try {
+    UserCredential userCredential = await FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email, password: password);
+    return userCredential.user;
+  } catch (e) {
+    print('Error signing in: $e');
+    return null;
   }
 }
