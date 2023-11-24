@@ -40,3 +40,14 @@ Future getAd() async {
   var categories = await db.collection('Categorias').get();
   return categories.docs;
 }
+
+Future<void> addAd(String name, double price, String imageUrl) async {
+  await Firebase.initializeApp();
+  FirebaseFirestore db = FirebaseFirestore.instance;
+
+  await db.collection('Anuncios').add({
+    'name': name,
+    'price': price,
+    'image': imageUrl,
+  });
+}

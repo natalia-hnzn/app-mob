@@ -1,10 +1,11 @@
-import 'package:app_store/pages/categorias.dart';
+import 'package:app_store/view/CreateAD.dart';
+import 'package:app_store/view/categorias.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:app_store/pages/catalog.dart';
-import 'package:app_store/pages/login.dart';
+import 'package:app_store/view/catalog.dart';
+import 'package:app_store/view/login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,6 +36,6 @@ void main() async {
           primarySwatch: Colors.lime,
         ),
         debugShowCheckedModeBanner: false,
-        home: CategoriesList()),
+        home: CreateAD()),
   );
 }
